@@ -1,0 +1,6 @@
+[model]
+path = "models/nomic-embed-text-v1.5"
+config_path = "config.json"
+tokenizer_path = "tokenizer.json"
+weight_path = "model.safetensors"
+
