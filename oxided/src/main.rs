@@ -1,16 +1,14 @@
 use clap::Parser;
-use oxided::args::Cli;
-use oxided::config::Config;
+
+use oxided::arguments::Arguments;
 
 fn main() {
-    let config = Config::default();
-    let cli = Cli::parse();
-
-    println!("Config: {:#?}", config);
-    println!("CLI: {:#?}", cli);
-
-    let config = config.merge(&cli);
-    println!("Config: {:#?}", config);
+    let args = Arguments::parse();
+    let config = args.load_config().unwrap_or_else(|err| {
+        eprintln!("Error loading configuration: {}", err);
+        std::process::exit(1);
+    });
+    println!("config: {:#?}", config);
 
     println!("Oxided");
 }

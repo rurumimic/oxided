@@ -1,41 +1,21 @@
-use clap::ValueEnum;
+use serde::Deserialize;
+use std::path::PathBuf;
 
-use crate::args::Cli;
+use crate::device::Device;
 
-#[derive(Debug)]
-pub struct Config {
-    pub model: Option<ModelConfig>,
-    pub device: Device,
-    pub verbose: bool,
+#[derive(Debug, Deserialize, Default)]
+pub struct AppConfig {
+    pub device: Option<Device>,
+    pub verbose: Option<bool>,
+
+    #[serde(default)]
+    pub model: AppModelConfig,
 }
 
-#[derive(Debug, Copy, Clone, ValueEnum)]
-pub enum Device {
-    Cpu,
-    Cuda,
-}
-
-#[derive(Debug)]
-pub struct ModelConfig {
-    pub path: Option<String>,
-    pub config_path: Option<String>,
-    pub tokenizer_path: Option<String>,
-    pub weight_path: Option<String>,
-}
-
-impl Config {
-    pub fn merge(mut self, cli: &Cli) -> Self {
-        self.device = cli.device;
-        self
-    }
-}
-
-impl Default for Config {
-    fn default() -> Self {
-        Self {
-            model: None,
-            device: Device::Cpu,
-            verbose: false,
-        }
-    }
+#[derive(Debug, Deserialize, Default)]
+pub struct AppModelConfig {
+    pub path: Option<PathBuf>,
+    pub config_path: Option<PathBuf>,
+    pub tokenizer_path: Option<PathBuf>,
+    pub weight_path: Option<PathBuf>,
 }

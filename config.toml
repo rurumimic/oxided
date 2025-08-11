@@ -1,3 +1,6 @@
+device = "cpu"
+verbose = true
+
 [model]
 path = "models/nomic-embed-text-v1.5"
 config_path = "config.json"
